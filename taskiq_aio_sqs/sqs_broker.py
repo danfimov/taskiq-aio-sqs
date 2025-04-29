@@ -52,8 +52,6 @@ class SQSBroker(AsyncBroker):
         max_number_of_messages: int = 1,
         delay_seconds: int = 0,
         s3_extended_bucket_name: str | None = None,
-        result_backend: AsyncResultBackend | None = None,
-        task_id_generator: Callable[[], str] | None = None,
     ) -> None:
         """Initialize the SQS broker.
 
@@ -69,12 +67,10 @@ class SQSBroker(AsyncBroker):
         :param delay_seconds: The delay for message delivery (0-900), this will
         configure a default.
         :param s3_extended_bucket_name: The S3 bucket name for extended storage.
-        :param result_backend: The result backend for task results.
-        :param task_id_generator: A callable to generate task IDs.
 
         :raises BrokerInputConfigError: If the configuration is invalid.
         """
-        super().__init__(result_backend, task_id_generator)
+        super().__init__()
 
         self._aws_region = region_name
         self._aws_access_key_id = aws_access_key_id
