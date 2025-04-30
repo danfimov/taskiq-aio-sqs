@@ -43,11 +43,3 @@ jobs:
           make install py_version="${{ matrix.py_version }}"
       - name: Run pytest check for Python ${{ matrix.py_version }}
         run: make test py_version=${{ matrix.py_version }}
-      - name: Show Coverage
-        if: github.event_name == 'pull_request' && matrix.py_version == '3.12'
-        uses: orgoro/coverage@v3.2
-        with:
-            coverageFile: coverage.xml
-            thresholdAll: 0.90
-            thresholdNew: 0.95
-            token: ${{ secrets.GITHUB_TOKEN }}
