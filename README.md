@@ -34,9 +34,8 @@ s3_result_backend = S3Backend(
 
 broker = SQSBroker(
     endpoint_url="http://localhost:4566",
-    result_backend=s3_result_backend,
     sqs_queue_name="my-queue",
-)
+).with_result_backend(s3_result_backend)
 
 
 @broker.task
