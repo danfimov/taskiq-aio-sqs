@@ -16,20 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - uses: astral-sh/setup-uv@v5
+      - id: setup-uv
+        uses: astral-sh/setup-uv@v5
         with:
           version: "0.7.1"
-      - uses: actions/cache@v4
-        id: cache
-        with:
-          path: ${{ env.pythonLocation }}
-          key: 3.12-python-${{ hashFiles('uv.lock') }}-uv
+          enable-cache: true
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.setup-uv.outputs.cache-hit != 'true'
         run: make install
       - name: Run typing/linting check
         run: make check
@@ -40,20 +33,14 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
-      - name: "Set up Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "${{ matrix.py_version }}"
-      - uses: astral-sh/setup-uv@v5
+      - id: setup-uv
+        uses: astral-sh/setup-uv@v5
         with:
           version: "0.7.1"
-      - uses: actions/cache@v4
-        id: cache
-        with:
-          path: ${{ env.pythonLocation }}
-          key: ${{ matrix.py_version }}-python-${{ hashFiles('uv.lock') }}-uv
+          enable-cache: true
+          python-version: ${{ matrix.py_version }}
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.setup-uv.outputs.cache-hit != 'true'
         run: make install
       - name: Run pytest check for Python ${{ matrix.py_version }}
         run: make test
