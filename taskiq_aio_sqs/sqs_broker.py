@@ -17,7 +17,6 @@ from annotated_types import Ge, Le
 from botocore.exceptions import ClientError
 from pydantic import TypeAdapter
 from taskiq import AsyncBroker
-from taskiq.abc.result_backend import AsyncResultBackend
 from taskiq.acks import AckableMessage
 from taskiq.message import BrokerMessage
 from types_aiobotocore_s3.client import S3Client
