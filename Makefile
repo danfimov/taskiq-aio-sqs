@@ -13,7 +13,7 @@ install: ## Installs package with development dependencies
 
 .PHONY: badge
 badge:
-	genbadge coverage -i coverage.xml
+	uv run genbadge coverage -i coverage.xml
 
 .PHONY: run-tests
 run-tests:
@@ -27,11 +27,11 @@ test: localstack-init run-tests localstack-stop ## Run testing and coverage.
 
 .PHONY: localstack-init
 localstack-init: ## Starts localstack with init script
-	SQS_ENABLE_MESSAGE_RETENTION_PERIOD=1 localstack start -d --no-banner; localstack wait -t 45
+	SQS_ENABLE_MESSAGE_RETENTION_PERIOD=1 uv run localstack start -d --no-banner; uv run localstack wait -t 45
 
 .PHONY: localstack-stop
 localstack-stop: ## Starts localstack with init script
-	localstack stop
+	uv run localstack stop
 
 ##@ 👷 Quality
 .PHONY: ruff-check
