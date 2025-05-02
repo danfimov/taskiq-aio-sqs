@@ -20,9 +20,6 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
-      - name: Install dependencies
-        if: steps.setup-uv.outputs.cache-hit != 'true'
-        run: make install
       - name: Run typing/linting check
         run: make check
   pytest:
@@ -37,9 +34,6 @@ jobs:
         with:
           enable-cache: true
           python-version: ${{ matrix.py_version }}
-      - name: Install dependencies
-        if: steps.setup-uv.outputs.cache-hit != 'true'
-        run: make install
       - name: Run pytest check for Python ${{ matrix.py_version }}
         run: make test
 
