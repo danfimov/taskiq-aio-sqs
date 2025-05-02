@@ -19,7 +19,6 @@ jobs:
         with:
           enable-cache: true
       - name: Install dependencies
-        if: steps.setup-uv.outputs.cache-hit != 'true'
         run: make install
       - name: Build dist
         run: python -m build
