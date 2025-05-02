@@ -22,6 +22,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
     "annotated-types~=0.7.0",
@@ -37,7 +38,7 @@ enabled = true
 
 [project.optional-dependencies]
 dev = [
-    "ruff==0.6.5",
+    "ruff==0.11.7",
     "pyright==1.1.380",
     "pre-commit==3.8.0",
     "genbadge[coverage]",
@@ -90,8 +91,6 @@ lint.ignore = [
     "D401",    # First line should be in imperative mood
     "D104",    # Missing docstring in public package
     "D100",    # Missing docstring in public module
-    "ANN102",  # Missing type annotation for self in method
-    "ANN101",  # Missing type annotation for argument
     "ANN401",  # typing.Any are disallowed in `**kwargs
     "PLR0913", # Too many arguments for function call
     "D106",    # Missing docstring in public nested class

@@ -13,11 +13,11 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - id: setup-uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.12"
+          enable-cache: true
       - name: Install dependencies
         run: make install
       - name: Build dist

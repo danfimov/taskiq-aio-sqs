@@ -15,31 +15,25 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - id: setup-uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "3.12"
-      - name: Install deps
-        run: |
-          pip install --upgrade pip
-          make install
+          enable-cache: true
       - name: Run typing/linting check
         run: make check
   pytest:
     strategy:
       matrix:
-        py_version: ["3.10", "3.11", "3.12"]
+        py_version: ["3.10", "3.11", "3.12", "3.13"]
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
-      - name: "Set up Python"
-        uses: actions/setup-python@v5
+      - id: setup-uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: "${{ matrix.py_version }}"
-      - name: Install deps
-        run: |
-          pip install --upgrade pip
-          make install py_version="${{ matrix.py_version }}"
+          enable-cache: true
+          python-version: ${{ matrix.py_version }}
       - name: Run pytest check for Python ${{ matrix.py_version }}
-        run: make test py_version=${{ matrix.py_version }}
+        run: make test
+

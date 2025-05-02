@@ -9,15 +9,15 @@ help:  ## Shows this help message
 ##@ 🛠  Testing and development
 .PHONY: install
 install: ## Installs package with development dependencies
-	$(PYTHON) -m pip install .[dev]
+	uv sync --all-extras
 
 .PHONY: badge
 badge:
-	genbadge coverage -i coverage.xml
+	uv run --all-extras genbadge coverage -i coverage.xml
 
 .PHONY: run-tests
 run-tests:
-	$(PYTHON) -m pytest --cov=taskiq_aio_sqs --cov-report term-missing --cov-fail-under=95 --cov-report xml:coverage.xml
+	uv run --all-extras pytest --cov=taskiq_aio_sqs --cov-report term-missing --cov-fail-under=95 --cov-report xml:coverage.xml
 
 .PHONY: test
 test: localstack-init run-tests localstack-stop badge ## Run testing and coverage.
@@ -27,24 +27,24 @@ test: localstack-init run-tests localstack-stop ## Run testing and coverage.
 
 .PHONY: localstack-init
 localstack-init: ## Starts localstack with init script
-	SQS_ENABLE_MESSAGE_RETENTION_PERIOD=1 localstack start -d --no-banner; localstack wait -t 45
+	SQS_ENABLE_MESSAGE_RETENTION_PERIOD=1 uv run --all-extras localstack start -d --no-banner; uv run  --all-extras localstack wait -t 45
 
 .PHONY: localstack-stop
 localstack-stop: ## Starts localstack with init script
-	localstack stop
+	uv run --all-extras localstack stop
 
 ##@ 👷 Quality
 .PHONY: ruff-check
 ruff-check: ## Runs ruff without fixing issues
-	$(PYTHON) -m ruff check
+	uv run --all-extras ruff check
 
 .PHONY: ruff-format
 ruff-format: ## Runs style checkers fixing issues
-	$(PYTHON) -m ruff format; $(PYTHON) -m ruff check --fix
+	uv run --all-extras ruff format; uv run --all-extras ruff check --fix
 
 .PHONY: typing
 typing: ## Runs pyright static type checking
-	$(PYTHON) -m pyright taskiq_aio_sqs/
+	uv run --all-extras pyright taskiq_aio_sqs/
 
 .PHONY: check
 check: ruff-check typing ## Runs all quality checks without fixing issues
